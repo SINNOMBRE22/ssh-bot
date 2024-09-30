@@ -1,5 +1,4 @@
 
-   ñ
 ## Comandos
 
 1. Instalar:
