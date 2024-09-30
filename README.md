@@ -44,7 +44,7 @@ cd ssh-bot
 npm install
 ```
 
-## Y Antes De Iniciar El Bot Creá una carpeta llamada .env Y Pega La siguiente información Reemplazando con los datos fe tu VPS
+## Y Antes De Iniciar El Bot Creá una carpeta llamada .env Y Pega La siguiente información Reemplazando con los datos de tu VPS
 
 ```bash
 VPS_HOST=tu-ip  # Reemplaza con la IP de tu VPS
