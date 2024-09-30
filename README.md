@@ -1,12 +1,5 @@
-# WhatsApp SSH Bot
 
-Este es un bot de WhatsApp que se conecta a través de SSH. Utiliza la biblioteca `whatsapp-web.js` para interactuar con la API de WhatsApp Web.
-
-## Requisitos
-
-- [Node.js](https://nodejs.org/) (v22.6.0 o superior)
-- [npm](https://www.npmjs.com/get-npm) (se instala automáticamente con Node.js)
-   
+   ñ
 ## Comandos
 
 1. Instalar:
@@ -42,6 +35,27 @@ apt install nodejs
  nvm install 22.6.0   #o superior
 ```
 
+## Despues de tener todos los packs instalados en la VPS solo usen estos comandos para comenzar
+
+```bash
+ git clone https://github.com/SINNOMBRE22/ssh-bot
+
+cd ssh-bot
+
+npm install
+```
+
+## Y Antes De Iniciar El Bot Creá una carpeta llamada .enve
+
+```bash
+VPS_HOST=tu-ip  # Reemplaza con la IP de tu VPS
+VPS_USER=root         # Si usas otro usuario, cámbialo aquí
+VPS_PASSWORD=password # Pon la contraseña de tu VPS
+```
+## INICIA EL BOT
+```bash
+node bot.js
+```
 ## Ejecutar el bot estable con PM2
 
 1.- instalar PM2 en VPS :
