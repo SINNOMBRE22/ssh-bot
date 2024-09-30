@@ -1,4 +1,4 @@
-const { Client, LocalAuth } = require('whatsapp-web.js');                                                                                                                                                                                                                              const { Client, LocalAuth } = require('whatsapp-web.js');
+const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const { Client: SSHClient } = require('ssh2');
 require('dotenv').config();
@@ -33,13 +33,12 @@ client.on('message', async (message) => {
     }
 });
 
+// Aquí iría la función createSSHAccount y otras funciones necesarias...
 // Función para generar el mensaje formateado con la información del VPS
 function generateVPSInfoMessage(username, password, ip, expirationDate) {
     return `
 ─────────────────────
-   ��������� - ���
-─────────────────────
->> IP: USA
+>> IP: USA 
 >> Host/IP-Address: ${ip}
 >> USUARIO: ${username}
 >> PASSWD: ${password}
@@ -111,4 +110,4 @@ function createSSHAccount(username, password, message) {
 
 // Iniciar el cliente de WhatsApp
 client.initialize();
-                                                                                                                           
+
