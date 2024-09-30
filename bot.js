@@ -11,16 +11,57 @@ const client = new Client({
     }
 });
 
+// Diccionario para almacenar las claves generadas
+let clavesGeneradas = {};
+
+// Función para generar claves aleatorias
+function generarClave() {
+    return Math.random().toString(36).substring(2, 10);
+}
+
+// Evento QR para escanear
 client.on('qr', (qr) => {
     qrcode.generate(qr, { small: true });
 });
 
+// Evento cuando el bot está listo
 client.on('ready', () => {
     console.log('Bot de WhatsApp está listo!');
 });
 
 // Escuchar mensajes entrantes
 client.on('message', async (message) => {
+    const mensaje = message.body.toLowerCase();
+
+    // Si el dueño solicita una clave
+    if (mensaje === 'solicitar clave' && message.from === '+5215629885039') {
+        const clave = generarClave();
+        clavesGeneradas[clave] = false;  // La clave se genera pero no ha sido usada
+        message.reply(`Clave generada: ${clave}`);
+    }
+    
+    // Si un usuario intenta usar una clave para crear una cuenta
+    else if (mensaje.startsWith('usar clave ')) {
+        const claveUsuario = mensaje.split(' ')[2];  // Extrae la clave proporcionada
+
+        if (clavesGeneradas[claveUsuario] === false) {
+            message.reply('Clave válida. Acceso permitido.');
+            clavesGeneradas[claveUsuario] = true;  // Marca la clave como usada
+
+            // Pedimos al usuario que envíe el formato correcto para crear la cuenta
+            message.reply('Envia el mensaje con el formato: cuenta,username,password');
+        } else {
+            message.reply('Clave inválida o ya usada.');
+        }
+    }
+    
+    // Si un usuario solicita acceso sin clave
+    else if (mensaje === 'solicitar acceso') {
+        message.reply('Contacta al administrador para obtener una clave de acceso.');
+        message.reply('Número del administrador: https://wa.me/message/BSE4ZCEPY7ZOP1');
+    }
+
+    // Crear la cuenta SSH si el formato del mensaje es correcto
     if (message.body.startsWith('cuenta')) {
         const parts = message.body.split(',');
         if (parts.length === 3) {
@@ -33,30 +74,29 @@ client.on('message', async (message) => {
     }
 });
 
-// Aquí iría la función createSSHAccount y otras funciones necesarias...
 // Función para generar el mensaje formateado con la información del VPS
 function generateVPSInfoMessage(username, password, ip, expirationDate) {
     return `
 ╔═════════════════════
-║      𝗩𝗣𝗦-𝗦𝗶𝗻𝗡𝗼𝗺𝗯𝗿𝗲
+║      ���-���������
 ║═════════════════════
-║[𖣘]𝗛𝗢𝗦𝗧/IP-Address: ${ip}
-║𝗨𝗦𝗨𝗔𝗥𝗜𝗢: ${username}
-║𝗣𝗔𝗦𝗦𝗪𝗗: ${password}
-║𝗟𝗜𝗠𝗜𝗧𝗘: 1
+║[�]����/IP-Address: ${ip}
+║�������: ${username}
+║������: ${password}
+║������: 1
 ║═════════════════════
-║[𖣘]𝗩𝗔𝗟𝗜𝗗𝗘𝗦: ${expirationDate}
+║[�]�������: ${expirationDate}
 ║═════════════════════
-║[𖣘] 𝗣𝘆𝘁𝗵𝗼𝗻: ${ip}:80@${username}:${password}
-║[𖣘] 𝗦𝗦𝗛/𝗦𝗦𝗟: ${ip}:443@${username}:${password}
-║[𖣘] 𝗨𝗗𝗣-𝗖𝗨𝗦𝗧𝗢𝗠: ${ip}:1-65535@${username}:${password}
+║[�] ������: ${ip}:80@${username}:${password}
+║[�] ���/���: ${ip}:443@${username}:${password}
+║[�] ���-������: ${ip}:1-65535@${username}:${password}
 ║═════════════════════
-║[𖣘] 𝗣𝗮𝘆𝗹𝗼𝗮𝗱 : GET / HTTP/1.1[crlf]Host: sinnombre.ovh[crlf]Upgrade: websocket[crlf][crlf]
+║[�] ������� : GET / HTTP/1.1[crlf]Host: sinnombre.ovh[crlf]Upgrade: websocket[crlf][crlf]
 ║═════════════════════
-║[𖣘] 𝗜𝗣 𝗨𝗦𝗔 🇺🇸
+║[�] �� ��� ��
 ╚═════════════════════
 ╔═════════════════════╗
-║    ✯𝗗𝗨𝗘𝗡̃𝗢 𝗬 𝗖𝗥𝗘𝗔𝗗𝗢𝗥✯
+║    ✯����̃� � �������✯
 ║https://wa.me/message/BSE4ZCEPY7ZOP1
 ╚═════════════════════╝
 `;
@@ -112,4 +152,5 @@ function createSSHAccount(username, password, message) {
 
 // Iniciar el cliente de WhatsApp
 client.initialize();
-
+                                                       
+        
